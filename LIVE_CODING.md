@@ -25,7 +25,7 @@ floatingActionButton = {
 Canvas(
     modifier = Modifier.padding(28.dp)
 ) {
-    drawCircle(Color.Red, 5.dp)
+    drawCircle(Color.Red, 5f)
 }
 ```
 
@@ -86,39 +86,39 @@ val state = transition(
 1. Define size prop key and use it
 
 ```kotlin
-val sizeState = FloatPropKey(label = "size")
+val radiusSize = FloatPropKey(label = "radiusSize")
 // ...
 state(FabState.IDLE) {
-    this[sizeState] = 0f
+    this[radiusSize] = 0f
 }
 state(FabState.EXPLODED) {
-    this[sizeState] = 4000f
+    this[radiusSize] = 4000f
 }
 // ...
-drawCircle(Color.Red, state[sizeState])
+drawCircle(Color.Red, state[radiusSize])
 ```
 
-1. Define distance prop key and use it
-
-```kotlin
-val distanceState = DpPropKey(label = "distance")
-// ...
-state(FabState.IDLE) {
-    this[distanceState] = 28.dp
-}
-state(FabState.EXPLODED) {
-    this[distanceState] = 88.dp
-}
-// ...
-distanceFromBottom = state[distanceState]
-```
-
-1. Bonus: smooth animation on background
+1. Smooth animation on background
 
 ```kotlin
 transition(fromState = FabState.IDLE, toState = FabState.EXPLODED) {
     sizeState using tween(500)
 }
+```
+
+1. Define distance prop key and use it
+
+```kotlin
+val distanceFromBottom = DpPropKey(label = "distanceFromBottom")
+// ...
+state(FabState.IDLE) {
+    this[distanceFromBottom] = 28.dp
+}
+state(FabState.EXPLODED) {
+    this[distanceFromBottom] = 88.dp
+}
+// ...
+distanceFromBottom = state[distanceFromBottom]
 ```
 
 1. Bonus: another Dial
@@ -135,13 +135,13 @@ Dial(
 1. Bonus: appearing text ✨
 
 ```kotlin
-val colorState = ColorPropKey(label = "color")
+val colorOfMessage = ColorPropKey(label = "colorOfMessage")
 // ...
 state(FabState.IDLE) {
-    this[colorState] = Color.Transparent
+    this[colorOfMessage] = Color.Transparent
 }
 state(FabState.EXPLODED) {
-    this[colorState] = Color.White
+    this[colorOfMessage] = Color.White
 }
 // ...
 Text(
@@ -150,6 +150,6 @@ Text(
         end = 68.dp,
         bottom = 16.dp
     ),
-    color = state[colorState]
+    color = state[colorOfMessage]
 )
 ```
