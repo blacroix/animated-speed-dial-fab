@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 
 val sizeState = FloatPropKey(label = "size")
 val colorState = ColorPropKey(label = "color")
-val paddingState = DpPropKey(label = "padding")
+val distanceState = DpPropKey(label = "distance")
 
 enum class FabState {
 	IDLE, EXPLODED
@@ -37,12 +37,12 @@ val fabExplosionTransitionDefinition = transitionDefinition<FabState> {
 	state(FabState.IDLE) {
 		this[sizeState] = 0f
 		this[colorState] = Color.Transparent
-		this[paddingState] = 28.dp
+		this[distanceState] = 28.dp
 	}
 	state(FabState.EXPLODED) {
 		this[sizeState] = 4000f
 		this[colorState] = Color.White
-		this[paddingState] = 88.dp
+		this[distanceState] = 88.dp
 	}
 	transition(fromState = FabState.IDLE, toState = FabState.EXPLODED) {
 		sizeState using tween(500)
@@ -79,29 +79,29 @@ class MainActivity : AppCompatActivity() {
 							drawCircle(Color.Red, state[sizeState])
 						}
 						Text(
-							text = "Hello, World!",
+							text = "Hello, KED!",
 							modifier = Modifier.padding(
 								end = 68.dp,
 								bottom = 16.dp
 							),
 							color = state[colorState]
 						)
-						val delta = (state[paddingState] - 28.dp) * .8f
+						val delta = (state[distanceState] - 28.dp) * .8f
 						Dial(
 							color = Color.Yellow,
-							distanceFromBottom = state[paddingState] + delta * 3
+							distanceFromBottom = state[distanceState] + delta * 3
 						)
 						Dial(
 							color = Color.Magenta,
-							distanceFromBottom = state[paddingState] + delta * 2
+							distanceFromBottom = state[distanceState] + delta * 2
 						)
 						Dial(
 							color = Color.Blue,
-							distanceFromBottom = state[paddingState] + delta
+							distanceFromBottom = state[distanceState] + delta
 						)
 						Dial(
 							color = Color.Green,
-							distanceFromBottom = state[paddingState]
+							distanceFromBottom = state[distanceState]
 						)
 						FloatingActionButton(
 							onClick = {
