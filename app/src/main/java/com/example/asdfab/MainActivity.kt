@@ -25,9 +25,9 @@ import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-val sizeState = FloatPropKey(label = "size")
-val colorState = ColorPropKey(label = "color")
-val distanceState = DpPropKey(label = "distance")
+val radiusSize = FloatPropKey(label = "radiusSize")
+val distanceFromBottom = DpPropKey(label = "distanceFromBottom")
+val colorOfMessage = ColorPropKey(label = "colorOfMessage")
 
 enum class FabState {
 	IDLE, EXPLODED
@@ -35,17 +35,17 @@ enum class FabState {
 
 val fabExplosionTransitionDefinition = transitionDefinition<FabState> {
 	state(FabState.IDLE) {
-		this[sizeState] = 0f
-		this[colorState] = Color.Transparent
-		this[distanceState] = 28.dp
+		this[radiusSize] = 0f
+		this[colorOfMessage] = Color.Transparent
+		this[distanceFromBottom] = 28.dp
 	}
 	state(FabState.EXPLODED) {
-		this[sizeState] = 4000f
-		this[colorState] = Color.White
-		this[distanceState] = 88.dp
+		this[radiusSize] = 4000f
+		this[colorOfMessage] = Color.White
+		this[distanceFromBottom] = 88.dp
 	}
 	transition(fromState = FabState.IDLE, toState = FabState.EXPLODED) {
-		sizeState using tween(500)
+		radiusSize using tween(500)
 	}
 }
 
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
 						Canvas(
 							modifier = Modifier.padding(28.dp)
 						) {
-							drawCircle(Color.Red, state[sizeState])
+							drawCircle(Color.Red, state[radiusSize])
 						}
 						Text(
 							text = "Hello, KED!",
@@ -84,24 +84,24 @@ class MainActivity : AppCompatActivity() {
 								end = 68.dp,
 								bottom = 16.dp
 							),
-							color = state[colorState]
+							color = state[colorOfMessage]
 						)
-						val delta = (state[distanceState] - 28.dp) * .8f
+						val delta = (state[distanceFromBottom] - 28.dp) * .8f
 						Dial(
 							color = Color.Yellow,
-							distanceFromBottom = state[distanceState] + delta * 3
+							distanceFromBottom = state[distanceFromBottom] + delta * 3
 						)
 						Dial(
 							color = Color.Magenta,
-							distanceFromBottom = state[distanceState] + delta * 2
+							distanceFromBottom = state[distanceFromBottom] + delta * 2
 						)
 						Dial(
 							color = Color.Blue,
-							distanceFromBottom = state[distanceState] + delta
+							distanceFromBottom = state[distanceFromBottom] + delta
 						)
 						Dial(
 							color = Color.Green,
-							distanceFromBottom = state[distanceState]
+							distanceFromBottom = state[distanceFromBottom]
 						)
 						FloatingActionButton(
 							onClick = {
